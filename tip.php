@@ -12,9 +12,9 @@
 	<div>
 		<div>
 		<h1> Tip Calculator </h1>
-		<form action="tip.php" method="post">
+		<form action="utsab.php" method="post">
 
-			<p > <span>Bill subtotal: $</span><input type="text" name="total" value="" /> </p>
+			<p > <span>Bill subtotal: $</span><input type="text" name="total" value="<?php echo isset($_POST['total']) ? $_POST['total'] : NULL; ?>" /> </p>
 			<p> Tip Percentage </p>
 
 		<?php
@@ -35,9 +35,24 @@
 			<?php
 				//checking if there the value for tip has been submitted
 				if (isset($_POST["submit"])) {
+
+					if (!is_numeric($_POST["total"])) {
+						echo "Please submit numeric value for subtotal <br/ >"; 
+					}
+					
+					if (!isset($_POST["tip"])) {
+						echo "Please submit the tip. <br/ > ";
+						} 
+
+					if ($_POST["total"] <= 0) {
+							echo "Please submit positive value for subtotal <br />"; 
+						}
 					
 					
 					if (isset($_POST["tip"]) && is_numeric($_POST["total"]) ) {
+
+
+
 						if ($_POST["total"] > 0) {
 							$subtotal = floatval($_POST["total"]);
 							$tip_percentage = floatval($_POST['tip']); // tip percentage
@@ -48,11 +63,10 @@
 							echo "Tip: $";
 							echo number_format($tip, 2) . "<br />";
 							echo "Total: $" ;
-							echo number_format($total, 2) . "<br />" ;
+							echo number_format($total, 2) . "<br />";
+							echo "Your input value is in correct format <br />"; 
 						}
-					if (!isset($_POST["tip"])) {
-						echo "Please submit the tip. ";
-						} 
+						
 					}
 				}
 			?>
